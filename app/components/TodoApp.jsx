@@ -24,12 +24,16 @@ var TodoApp = React.createClass({
       ]
     };
   },
+  handleAddTodo: function (text) {
+    alert('nex todo: ' + text);
+  },
   render: function() {
     var {todos} = this.state;
     console.log(todos);
     return (
       <div>
         <TodoList todos={todos}/>
+        <AddTodo onAddTodo={this.handleAddTodo}/>
       </div>
     );
   }
