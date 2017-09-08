@@ -41,6 +41,25 @@ describe('Reducers', () => {
       expect(res[0].text).toEqual(action.text);
     });
 
+    it('should add existing to dos', () => {
+      var todos = [{
+        id: '111',
+        text: 'anything',
+        completed: false,
+        completedAt: undefined,
+        createdAt: 0
+      }];
+      var action = {
+        type: 'ADD_TODOS',
+        todos
+      };
+
+      var res = reducers.todosReducer(df([]), df(action));
+
+      expect(res.length).toEqual(1);
+      expect(res[0].text).toEqual(todos[0].text);
+    });
+
     it('should toggle completed if is incompleted', () => {
       var action = {
         type: 'TOGGLE_TODO',
