@@ -45,9 +45,7 @@ describe('TodoList',() => {
   it('should render empty message if no todos', () => {
     var todos = [];
     var store = configure({ //setting initial state
-      todos: todos,
-      showCompleted: false,
-      searchText: ''
+      todos: todos
     });
     var provider = TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -70,8 +68,7 @@ describe('TodoList',() => {
     }];
     var store = configure({ //setting initial state
       todos: todos,
-      showCompleted: false,
-      searchText: ''
+      showCompleted: false
     });
     var provider = TestUtils.renderIntoDocument(
       <Provider store={store}>
