@@ -65,30 +65,10 @@ describe('Reducers', () => {
       expect(res[0].text).toEqual(todos[0].text);
     });
 
-    it('should toggle completed if is incompleted', () => {
-      var action = {
-        type: 'TOGGLE_TODO',
-        id: 1
-      };
-
-      var todos = [{
-        id: 1,
-        text: 'Thing to do',
-        createdAt: 0,
-        completedAt: undefined,
-        completed: false
-      }];
-
-      var res = reducers.todosReducer(df(todos), df(action));
-
-      expect(res[0].completed).toEqual(true);
-      expect(res[0].completedAt).toBeA('number');
-    });
-
-    it('should toggle incompleted if is completed', () => {
-      var action = {
-        type: 'TOGGLE_TODO',
-        id: 1
+    it('should update todo', () => {
+      var updates = {
+        completed: false,
+        completedAt: null
       };
 
       var todos = [{
@@ -99,10 +79,17 @@ describe('Reducers', () => {
         completed: true
       }];
 
+      var action = {
+        type: 'UPDATE_TODO',
+        id: todos[0].id,
+        updates
+      };
+
       var res = reducers.todosReducer(df(todos), df(action));
 
-      expect(res[0].completed).toEqual(false);
-      expect(res[0].completedAt).toNotExist();
+      expect(res[0].completed).toEqual(updates.completed);
+      expect(res[0].completedAt).toEqual(updates.completedAt);
+      expect(res[0].text).toEqual(todos[0].text);
     });
   });
 });
