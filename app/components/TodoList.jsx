@@ -12,13 +12,14 @@ export var TodoList = React.createClass({
     // each component needs to have a unique key
     // ... for passing every attribute of todo as separate props
     var renderTodos = () => {
-      if (todos.length === 0) {
+      var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText.toLowerCase());
+      if (filteredTodos.length === 0) {
         return (
           <p className="container__message">Nothing to do</p>
         );
       }
 
-      return TodoAPI.filterTodos(todos, showCompleted, searchText.toLowerCase()).map(
+      return filteredTodos.map(
         (todo) => <Todo key={todo.id} {...todo}/>
       );
   };

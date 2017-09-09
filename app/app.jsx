@@ -8,16 +8,7 @@ var actions = require('actions');
 var store = require('configureStore').configure();
 var TodoAPI = require('TodoAPI');
 
-store.subscribe(() => {
-  var state = store.getState();
-
-  // write to the localStorage
-  TodoAPI.setTodos(state.todos);
-});
-
-// get todos from localStorage
-var initialTodos = TodoAPI.getTodos();
-store.dispatch(actions.addTodos(initialTodos));
+store.dispatch(actions.startAddTodos());
 
 // Load foundation
 $(document).foundation();

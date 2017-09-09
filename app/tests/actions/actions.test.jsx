@@ -5,6 +5,7 @@ var expect = require('expect');
 import firebase, {firebaseRef} from 'app/firebase/';
 var actions = require('actions');
 
+// because the async actions dispatch their own set actions
 var createMockStore = configureMockStore([thunk]);
 
 describe('Actions', () => {
@@ -90,13 +91,19 @@ describe('Actions', () => {
     var testTodoRef;
 
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
+      var todosRef = firebaseRef.child('todos');
 
-      testTodoRef.set({
-        text: 'Something to do',
-        completed: false,
-        createdAt: 0
-      }).then(() => done());
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+
+        return testTodoRef.set({
+          text: 'Something to do',
+          completed: false,
+          createdAt: 0
+        });
+      })
+      .then(() => done())
+      .catch(done);
     });
 
     afterEach((done) => {
@@ -109,7 +116,7 @@ describe('Actions', () => {
 
       store.dispatch(action).then(() => {
         const mockActions = store.getActions();
-        
+
         // toInclude because can't guess which value completedAt will be
         expect(mockActions[0]).toInclude({
           type: 'UPDATE_TODO',
@@ -119,6 +126,25 @@ describe('Actions', () => {
           completed: true
         });
         expect(mockActions[0].updates.completedAt).toExist();
+
+        done();
+      }, done);
+    });
+
+    it('should populate todos and dispatch ADD_TODOS action',(done) => {
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+
+      store.dispatch(action).then(() => {
+        const mockActions = store.getActions();
+
+        expect(mockActions[0]).toInclude({
+          type: 'ADD_TODOS'
+        });
+        expect(mockActions[0].todos.length).toEqual(1);
+        expect(mockActions[0].todos[0]).toInclude({
+          text: 'Something to do'
+        });
 
         done();
       }, done);
