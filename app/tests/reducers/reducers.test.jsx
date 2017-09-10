@@ -3,6 +3,29 @@ var reducers = require('reducers');
 var df = require('deep-freeze-strict'); // to test if the reducers don't change the parameters
 
 describe('Reducers', () => {
+  describe('authReducer', () => {
+    it('should set uid on login', () => {
+      var action = {
+        type: 'LOGIN',
+        uid: 0
+      };
+
+      var res = reducers.authReducer(df({}), df(action));
+
+      expect(res).toEqual({uid:action.uid});
+    });
+
+    it('should unset uid on logout', () => {
+      var action = {
+        type: 'LOGOUT',
+      };
+
+      var res = reducers.authReducer(df({uid:0}), df(action));
+
+      expect(res).toEqual({});
+    });
+  });
+
   describe('searchTextReducer', () => {
     it('should set searchText', () => {
       var action = {
