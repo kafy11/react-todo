@@ -2,12 +2,10 @@ import firebase from 'firebase';
 
 try {
   var config = {
-    apiKey: "AIzaSyDtHVcfkpANbIisuLWrQwAvt20RYExG-i8",
-    authDomain: "kafy-todo-app.firebaseapp.com",
-    databaseURL: "https://kafy-todo-app.firebaseio.com",
-    projectId: "kafy-todo-app",
-    storageBucket: "kafy-todo-app.appspot.com",
-    messagingSenderId: "502228114374"
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET
   };
   firebase.initializeApp(config);
 } catch (e) {
