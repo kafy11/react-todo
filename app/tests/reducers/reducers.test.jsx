@@ -114,5 +114,23 @@ describe('Reducers', () => {
       expect(res[0].completedAt).toEqual(updates.completedAt);
       expect(res[0].text).toEqual(todos[0].text);
     });
+
+    it('should clear to dos on logout', () => {
+      var action = {
+        type: 'LOGOUT'
+      };
+
+      var todos = [{
+        id: 1,
+        text: 'Thing to do',
+        createdAt: 0,
+        completedAt: 0,
+        completed: true
+      }];
+
+      var res = reducers.todosReducer(df(todos), df(action));
+
+      expect(res.length).toEqual(0);
+    });
   });
 });
